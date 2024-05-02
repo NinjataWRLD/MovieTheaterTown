@@ -28,7 +28,7 @@
 		<ProjectReference Include="..\movietheatertown\movietheatertown.esproj">
 			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
 		</ProjectReference>
-		<ProjectReference Include="..\MovieTheaterTown.Infrastructure\MovieTheaterTown.Infrastructure.csproj" />
+		<ProjectReference Include="..\MovieTheaterTown.Core\MovieTheaterTown.Core.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
