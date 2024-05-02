@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using MovieTheaterTown.Core.Contracts;
+using MovieTheaterTown.Core.Services;
 using MovieTheaterTown.Infrastructure.Data;
 using MovieTheaterTown.Infrastructure.Data.Common;
 
@@ -10,6 +12,7 @@ string connectionString = builder.Configuration.GetConnectionString("DefaultConn
 builder.Services.AddDbContext<MovieContext>(opt => opt.UseSqlServer(connectionString));
 builder.Services.AddScoped<IRepository, Repository>();
 
+builder.Services.AddScoped<IMovieService, MovieService>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

@@ -31,8 +31,4 @@
 		<ProjectReference Include="..\MovieTheaterTown.Core\MovieTheaterTown.Core.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<Folder Include="Controllers\" />
-	</ItemGroup>
-
 </Project>
