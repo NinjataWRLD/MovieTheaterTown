@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieTheaterTown.Server", "MovieTheaterTown.Server\MovieTheaterTown.Server.csproj", "{9C296C92-B710-4BE2-94B2-8E27CE779B6E}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "movietheatertown.client", "movietheatertown.client\movietheatertown.client.esproj", "{116094F0-AFB8-42D9-BD83-E739B947CC92}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9C296C92-B710-4BE2-94B2-8E27CE779B6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C296C92-B710-4BE2-94B2-8E27CE779B6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C296C92-B710-4BE2-94B2-8E27CE779B6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C296C92-B710-4BE2-94B2-8E27CE779B6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{116094F0-AFB8-42D9-BD83-E739B947CC92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{116094F0-AFB8-42D9-BD83-E739B947CC92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{116094F0-AFB8-42D9-BD83-E739B947CC92}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{116094F0-AFB8-42D9-BD83-E739B947CC92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{116094F0-AFB8-42D9-BD83-E739B947CC92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{116094F0-AFB8-42D9-BD83-E739B947CC92}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C94254AA-5FAE-4902-AFE5-C290102D6F11}
+	EndGlobalSection
+EndGlobal
