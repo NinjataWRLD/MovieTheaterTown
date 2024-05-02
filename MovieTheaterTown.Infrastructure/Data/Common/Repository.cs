@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace MovieTheatreTown.Infrastructure.Data.Common
+namespace MovieTheaterTown.Infrastructure.Data.Common
 {
     public class Repository(MovieContext context) : IRepository
     {

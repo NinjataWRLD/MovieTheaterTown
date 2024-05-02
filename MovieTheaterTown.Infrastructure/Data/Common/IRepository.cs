@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace MovieTheatreTown.Infrastructure.Data.Common
+namespace MovieTheaterTown.Infrastructure.Data.Common
 {
     public interface IRepository
     {

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using MovieTheatreTown.Infrastructure.Data;
-using MovieTheatreTown.Infrastructure.Data.Common;
+using MovieTheaterTown.Infrastructure.Data;
+using MovieTheaterTown.Infrastructure.Data.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 

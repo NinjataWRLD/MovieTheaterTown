@@ -1,4 +1,4 @@
-﻿namespace MovieTheatreTown.Infrastructure.Data.Models
+﻿namespace MovieTheaterTown.Infrastructure.Data.Models
 {
     public class Movie
     {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MovieTheatreTown.Infrastructure.Data.Models;
+using MovieTheaterTown.Infrastructure.Data.Models;
 
-namespace MovieTheatreTown.Infrastructure.Data
+namespace MovieTheaterTown.Infrastructure.Data
 {
     public class MovieContext(DbContextOptions<MovieContext> options) : DbContext(options)
     {
