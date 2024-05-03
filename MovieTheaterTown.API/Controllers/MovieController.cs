@@ -12,7 +12,7 @@ namespace MovieTheaterTown.API.Controllers
     using static StatusCodes;
 
     [ApiController]
-    [Route("/movies")]
+    [Route("movies")]
     public class MovieController(IMovieService movieService) : ControllerBase
     {
         private readonly IMapper mapper = new MapperConfiguration(cfg
@@ -25,6 +25,7 @@ namespace MovieTheaterTown.API.Controllers
         [ProducesResponseType(Status400BadRequest)]
         public async Task<ActionResult<MovieExportDTO[]>> GetAsync()
         {
+            Console.WriteLine("got here");
             try
             {
                 IEnumerable<MovieModel> models = await movieService.GetAllAsync();

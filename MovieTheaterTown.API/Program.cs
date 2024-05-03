@@ -13,7 +13,7 @@ builder.Services.AddDbContext<MovieContext>(opt => opt.UseSqlServer(connectionSt
 builder.Services.AddScoped<IRepository, Repository>();
 
 builder.Services.AddScoped<IMovieService, MovieService>();
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
