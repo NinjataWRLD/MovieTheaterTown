@@ -7,14 +7,12 @@ function Movies({ movies, setMovies }) {
     }, []);
 
     return (
-        <ul className="row">
-            {
-                movies.map(movie => (
-                    <li key={movie.id}>
-                        <Movie movie={movie} movies={movies} setMovies={setMovies} />
-                    </li>
-                ))
-            }
+        <ul className="flex flex-wrap justify-between">
+            {movies.map(movie => (
+                <li key={movie.id} className="w-1/4 p-4">
+                    <Movie movie={movie} movies={movies} setMovies={setMovies} />
+                </li>
+            ))}
         </ul>
     );
 
