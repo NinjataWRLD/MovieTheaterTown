@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using MovieTheaterTown.Infrastructure.Data.Models;
 
 namespace MovieTheaterTown.Infrastructure.Data
 {
-    public class MovieContext(DbContextOptions<MovieContext> options) : DbContext(options)
+    public class MovieContext(DbContextOptions<MovieContext> options) : IdentityDbContext<AppUser, AppRole, Guid>(options)
     {
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Cast> Cast { get; set; }
