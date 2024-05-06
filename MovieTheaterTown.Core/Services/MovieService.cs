@@ -54,9 +54,9 @@ namespace MovieTheaterTown.Core.Services
 
             entity.Name = model.Name;
             entity.Plot = model.Plot;
-            entity.Cast = model.Cast;
-            entity.Crew = model.Crew;
-            entity.Reviews = model.Reviews;
+            entity.Cast = [..model.Cast];
+            entity.Crew = [..model.Crew];
+            entity.Reviews = [..model.Reviews];
             await repository.SaveChangesAsync();
         }
 

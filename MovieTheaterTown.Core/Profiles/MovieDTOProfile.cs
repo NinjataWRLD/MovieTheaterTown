@@ -14,6 +14,10 @@ namespace MovieTheaterTown.Core.Profiles
 
         private void ImportToModel() => CreateMap<MovieImportDTO, MovieModel>();
 
-        private void ModelToExport() => CreateMap<MovieModel, MovieExportDTO>();
+        private void ModelToExport() => CreateMap<MovieModel, MovieExportDTO>()
+            .ForMember(export  => export.Cast, opt => opt.MapFrom(model => model.Cast.Select(c => c.Name)))
+            .ForMember(export  => export.Crew, opt => opt.MapFrom(model => model.Crew.Select(c => c.Name)))
+            .ForMember(export  => export.Reviews, opt => opt.MapFrom(model => model.Reviews.Select(r => r.Message)))
+            ;
     }
 }

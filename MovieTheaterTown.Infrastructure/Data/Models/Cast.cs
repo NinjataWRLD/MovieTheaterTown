@@ -3,19 +3,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MovieTheaterTown.Infrastructure.Data.Models
 {
-    public class Movie
+    public class Cast
     {
         [Key]
         public int Id { get; set; }
 
         [Required]
         public string Name { get; set; } = null!;
-
+        
         [Required]
-        public string Plot { get; set; } = null!;
+        public int MovieId { get; set; }
 
-        public ICollection<Cast> Cast { get; set; } = [];
-        public ICollection<Crew> Crew { get; set; } = [];
-        public ICollection<Review> Reviews { get; set; } = [];
+        [ForeignKey(nameof(MovieId))]
+        public Movie Movie { get; set; } = null!;
     }
 }

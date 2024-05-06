@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieTheaterTown.Infrastructure.Data;
 
@@ -10,9 +11,11 @@ using MovieTheaterTown.Infrastructure.Data;
 namespace MovieTheaterTown.Infrastructure.Migrations
 {
     [DbContext(typeof(MovieContext))]
-    partial class MovieContextModelSnapshot : ModelSnapshot
+    [Migration("20240506122123_ExtractedMemberAndReview")]
+    partial class ExtractedMemberAndReview
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,7 +43,7 @@ namespace MovieTheaterTown.Infrastructure.Migrations
 
                     b.HasIndex("MovieId");
 
-                    b.ToTable("Cast", (string)null);
+                    b.ToTable("Cast");
                 });
 
             modelBuilder.Entity("MovieTheaterTown.Infrastructure.Data.Models.Crew", b =>
@@ -62,7 +65,7 @@ namespace MovieTheaterTown.Infrastructure.Migrations
 
                     b.HasIndex("MovieId");
 
-                    b.ToTable("Crew", (string)null);
+                    b.ToTable("Crew");
                 });
 
             modelBuilder.Entity("MovieTheaterTown.Infrastructure.Data.Models.Movie", b =>
@@ -83,7 +86,7 @@ namespace MovieTheaterTown.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Movies", (string)null);
+                    b.ToTable("Movies");
                 });
 
             modelBuilder.Entity("MovieTheaterTown.Infrastructure.Data.Models.Review", b =>
@@ -108,7 +111,7 @@ namespace MovieTheaterTown.Infrastructure.Migrations
 
                     b.HasIndex("MovieId");
 
-                    b.ToTable("Reviews", (string)null);
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("MovieTheaterTown.Infrastructure.Data.Models.Cast", b =>

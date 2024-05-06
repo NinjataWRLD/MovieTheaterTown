@@ -90,9 +90,9 @@ namespace MovieTheaterTown.API.Controllers
 
                 model.Name = import.Name;
                 model.Plot = import.Plot;
-                model.Cast = import.Cast;
-                model.Crew = import.Crew;
-                model.Reviews = import.Reviews;
+                model.Cast = [..import.Cast];
+                model.Crew = [..import.Crew];
+                model.Reviews = [.. import.Reviews];
                 await movieService.EditAsync(id, model);
 
                 return NoContent();
