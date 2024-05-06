@@ -14,8 +14,8 @@ function Header() {
                 </div>
                 <div>
                     <ul className="flex space-x-4">
-                        <div className="text-white hover:text-gray-300">Sign in</div>
-                        <div className="text-white hover:text-gray-300">Sign up</div>
+                        <NavbarLink to="/signin" text="Sign in" />
+                        <NavbarLink to="/signup" text="Sign up" />
                     </ul>
                 </div>
             </div>
