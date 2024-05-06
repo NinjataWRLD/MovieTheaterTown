@@ -1,6 +1,9 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function MovieForm({ movies, setMovies }) {
+    const navigate = useNavigate();
+
     const [name, setName] = useState('');
     const [plot, setPlot] = useState('');
 
@@ -24,10 +27,13 @@ function MovieForm({ movies, setMovies }) {
 
         setName('');
         setPlot('');
+
+        navigate('/');
     };
 
     return (
         <>
+            <h1 className="text-3xl text-center font-bold my-6">Add Movie</h1>
             <form onSubmit={handleSubmit} className="w-1/2 mx-auto mt-8" >
                 <div className="mb-4">
                     <label className="block text-gray-200">Movie Name:</label>

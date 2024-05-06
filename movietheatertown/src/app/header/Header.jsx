@@ -6,10 +6,10 @@ function Header() {
         <nav className="bg-gray-900 p-5">
             <div className="container mx-auto flex justify-between items-center">
                 <div className="flex space-x-8 items-center">
-                    <div to="/" className="text-white text-xl font-bold">MovieTownCinema</div>
+                    <Link to="/" className="text-white text-xl font-bold">MovieTheaterTown</Link>
                     <ul className="flex space-x-4">
-                        <div className="text-white hover:text-gray-300">Home</div>
-                        <div className="text-white hover:text-gray-300">Add Movie</div>
+                        <NavbarLink to="/" text="Home" />
+                        <NavbarLink to="/add" text="Add Movie" />
                     </ul>
                 </div>
                 <div>

@@ -1,21 +1,19 @@
-import Movies from './Movies'
-import MovieForm from './MovieForm'
-import { useState } from 'react';
+import Movies from './Read/Movies'
+import MovieDetails from './Read/Update, Delete/MovieDetails'
+import MovieForm from './Create/MovieForm'
+import { useState } from 'react'
+import { Routes, Route } from 'react-router-dom'
 
 function Body() {
     const [movies, setMovies] = useState([]);
 
     return (
-        <div  className="container text-white m-0">
-            {/*<Routes>*/}
-            {/*<Route exact path="/">*/}
-            <h1 className="text-3xl font-bold py-6 text-center">Movies</h1>
-            <Movies movies={movies} setMovies={setMovies} />
-            {/*</Route>*/}
-            {/*<Route exact path="/add">*/}
-            <MovieForm movies={movies} setMovies={setMovies} />
-            {/*</Route>*/}
-            {/*</Routes>*/}
+        <div className="container text-white m-0">
+            <Routes>
+                <Route path="/" element={<Movies movies={movies} setMovies={setMovies} /> } />
+                <Route path="/add" element={<MovieForm movies={movies} setMovies={setMovies} /> } />
+                <Route path={'/moviedetails/:id'} element={<MovieDetails movies={movies} setMovies={setMovies} /> } />
+            </Routes>
         </div>
     );
 }
