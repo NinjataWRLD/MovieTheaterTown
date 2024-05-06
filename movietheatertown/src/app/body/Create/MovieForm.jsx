@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 function MovieForm({ movies, setMovies }) {
     const navigate = useNavigate();
@@ -7,12 +8,8 @@ function MovieForm({ movies, setMovies }) {
     const [name, setName] = useState('');
     const [plot, setPlot] = useState('');
 
-    const addMovie = (movie) => {
-        fetch("movies", {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(movie)
-        })
+    async function addMovie(movie) {
+        await axios.post("https://localhost:7237/movies", movie)
             .then(response => response.json())
             .then(data => setMovies([...movies, data]))
             .catch(error => console.error('Error:', error));

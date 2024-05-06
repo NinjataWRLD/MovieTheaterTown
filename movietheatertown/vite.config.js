@@ -42,12 +42,7 @@ export default defineConfig({
         }
     },
     server: {
-        proxy: {
-            '^/movies': {
-                target,
-                secure: false
-            }
-        },
+        proxy: { },
         port: 5173,
         https: {
             key: fs.readFileSync(keyFilePath),

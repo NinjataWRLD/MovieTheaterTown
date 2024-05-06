@@ -15,7 +15,6 @@ function Header() {
                 <div>
                     <ul className="flex space-x-4">
                         <NavbarLink to="/signin" text="Sign in" />
-                        <NavbarLink to="/signup" text="Sign up" />
                     </ul>
                 </div>
             </div>

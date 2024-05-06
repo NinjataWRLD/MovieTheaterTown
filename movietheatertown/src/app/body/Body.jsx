@@ -1,8 +1,9 @@
-import Movies from './Read/Movies'
-import MovieDetails from './Read/Update, Delete/MovieDetails'
-import MovieForm from './Create/MovieForm'
 import { useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
+import MovieForm from './Create/MovieForm'
+import Movies from './Read/Movies'
+import MovieDetails from './Read/Update, Delete/MovieDetails'
+import SigninPage from './Auth/SigninPage'
 
 function Body() {
     const [movies, setMovies] = useState([]);
@@ -13,6 +14,7 @@ function Body() {
                 <Route path="/" element={<Movies movies={movies} setMovies={setMovies} /> } />
                 <Route path="/add" element={<MovieForm movies={movies} setMovies={setMovies} /> } />
                 <Route path={'/moviedetails/:id'} element={<MovieDetails movies={movies} setMovies={setMovies} /> } />
+                <Route path={'/signin'} element={<SigninPage /> } />
             </Routes>
         </div>
     );

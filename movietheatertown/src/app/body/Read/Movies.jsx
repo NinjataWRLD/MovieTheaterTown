@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import Movie from './MovieCard'
+import axios from 'axios'
 
 function Movies({ movies, setMovies }) {
     useEffect(() => {
@@ -20,8 +21,7 @@ function Movies({ movies, setMovies }) {
     );
 
     async function populateData() {
-        const response = await fetch('movies');
-        const data = await response.json();
+        const data = await axios.get('https://localhost:7237/movies').then(response => response.data);
         setMovies(data);
     }
 

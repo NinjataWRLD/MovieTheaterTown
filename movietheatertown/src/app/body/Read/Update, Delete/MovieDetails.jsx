@@ -2,6 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import MoviePropForm from './Props/MoviePropForm'
 import MoviePropList from './Props/MoviePropList'
+import axios from 'axios'
 
 function MovieDetails({ movies, setMovies }) {
     const { id } = useParams();
@@ -16,11 +17,7 @@ function MovieDetails({ movies, setMovies }) {
         getMovie(id);
     }, []);
 
-    const updateDb = (data) => fetch(`/movies/${id}`, {
-        method: 'PATCH',
-        headers: { 'CONTENT-TYPE': 'application/json' },
-        body: JSON.stringify([data])
-    });
+    const updateDb = (data) => axios.patch(`/movies/${id}`, data);
 
     function editMovieCast(operation, value) {
         const patchInfo = {
@@ -28,7 +25,7 @@ function MovieDetails({ movies, setMovies }) {
             "op": operation,
             "value": { "name": value }
         };
-        updateDb(patchInfo);
+        updateDb([patchInfo]);
     }
 
     function editMovieCrew(operation, value) {
@@ -49,8 +46,8 @@ function MovieDetails({ movies, setMovies }) {
         updateDb(patchInfo);
     }
 
-    function deleteMovie(id) {
-        fetch(`/movies/${id}`, { method: 'DELETE', })
+    async function deleteMovie(id) {
+        await axios.delete(`/movies/${id}`)
             .then(() => setMovies(movies.filter(m => m.id != id)));
         navigate('/');
     }
@@ -86,8 +83,8 @@ function MovieDetails({ movies, setMovies }) {
     );
 
     async function getMovie(id) {
-        const response = await fetch(`/movies/${id}`);
-        const data = await response.json();
+        const data = await axios.get(`https://localhost:7237/movies/${id}`).then(response => response.data);
+        console.log(data);
         setMovie(data);
     }
 }
