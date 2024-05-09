@@ -2,8 +2,8 @@ import { useState } from 'react'
 import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
 
-function SigninPage() {
-    const [isLogin, setIsLogin] = useState(false);
+function SigninPage({ onRegister, onLogin }) {
+    const [isLogin, setIsLogin] = useState(true);
 
     const toggleForm = () => {
         setIsLogin(!isLogin);
@@ -14,7 +14,7 @@ function SigninPage() {
             <div className="w-3/6 bg-gray-900 rounded-md shadow-2xl">
                 <h2 className="pt-12 text-4xl text-center">{isLogin ? "Login" : "Register"}</h2>
                 <div className="pt-12 pb-8 flex justify-center">
-                    {isLogin ? <LoginForm /> : <RegisterForm />}
+                    {isLogin ? <LoginForm onSubmit={onLogin} /> : <RegisterForm onSubmit={onRegister} />}
                 </div>
                 <p className="pb-8 text-center">
                     {isLogin ? "Don't have an account yet?" : "Already have an account?"}{' '}

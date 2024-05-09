@@ -1,23 +1,12 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
 
-function LoginForm() {
-    const navigate = useNavigate();
-
+function LoginForm({ onSubmit }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    async function handleSubmit() {
-        await axios.post("https://localhost:7237/signin/logout")
-            .then(response => console.log(response))
-            .catch(error => console.error(error.message));
-
-        await axios.post("https://localhost:7237/signin/login", { username, password, rememberMe: false })
-            .then(response => console.log(response.data))
-            .catch(error => console.error(error.message));
-
-        navigate("/");
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        onSubmit({ username, password, rememberMe: false });
     };
 
     return (

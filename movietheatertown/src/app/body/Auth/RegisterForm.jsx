@@ -1,23 +1,20 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
-function RegisterForm() {
-    const navigate = useNavigate();
 
+function RegisterForm({ onSubmit }) {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
-    async function handleSubmit() {
-        try {
-            const response = await axios.post("https://localhost:7237/signin/register", { username, email, password });
-            console.log(response);
-            navigate("/");
-        } catch (error) {
-            console.error('Error registering user:', error);
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        if (password != confirmPassword) {
+            console.log('passwords do not match bro');
         }
-    }
+        else {
+            onSubmit({ username, email, password });
+        }
+    };
 
     return (
         <form onSubmit={handleSubmit} className="w-1/2">

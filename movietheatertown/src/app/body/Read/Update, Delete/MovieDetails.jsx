@@ -17,7 +17,7 @@ function MovieDetails({ movies, setMovies }) {
         getMovie(id);
     }, []);
 
-    const updateDb = (data) => axios.patch(`/movies/${id}`, data);
+    const updateDb = (data) => axios.patch(`https://localhost:7237/movies/${id}`, data);
 
     function editMovieCast(operation, value) {
         const patchInfo = {
@@ -47,7 +47,7 @@ function MovieDetails({ movies, setMovies }) {
     }
 
     async function deleteMovie(id) {
-        await axios.delete(`/movies/${id}`)
+        await axios.delete(`https://localhost:7237/movies/${id}`)
             .then(() => setMovies(movies.filter(m => m.id != id)));
         navigate('/');
     }
