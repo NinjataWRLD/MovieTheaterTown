@@ -66,10 +66,6 @@ builder.Services.AddCors(options =>
          builder.WithOrigins("https://localhost:5173")
                 .AllowAnyHeader()
                 .AllowAnyMethod();
-         
-         builder.WithOrigins("https://localhost:5176")
-                .AllowAnyHeader()
-                .AllowAnyMethod();
      });
  });
 

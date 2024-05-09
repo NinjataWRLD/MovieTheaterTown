@@ -15,7 +15,6 @@ namespace MovieTheaterTown.API.Controllers
     {
         [HttpPost("register")]
         [Consumes("application/json")]
-        [Produces("application/json")]
         public async Task<ActionResult<string>> Register([FromBody] RegisterModel model)
         {
             if (!ModelState.IsValid)
@@ -46,6 +45,7 @@ namespace MovieTheaterTown.API.Controllers
         }
 
         [HttpPost("login")]
+        [Consumes("application/json")]
         public async Task<ActionResult<string>> Login([FromBody] LoginModel model)
         {
             if (!ModelState.IsValid)
