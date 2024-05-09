@@ -13,7 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-    ?? throw new ArgumentNullException("Connection string not found...");
+    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found in configuration.");
 
 builder.Services.AddDbContext<MovieContext>(opt => opt.UseSqlServer(connectionString));
 builder.Services.AddIdentity<AppUser, AppRole>(options =>
@@ -34,8 +34,8 @@ if (string.IsNullOrEmpty(jwtSettings["SecretKey"]))
 {
     jwtSettings["SecretKey"] = KeyGenerator.GenerateSecretKey(32);
 }
-string secretKey = jwtSettings["SecretKey"] ?? "";
-byte[] key = Encoding.ASCII.GetBytes(secretKey);
+string key = jwtSettings["SecretKey"]!;
+byte[] keyBytes = Encoding.ASCII.GetBytes(key);
 
 builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddEndpointsApiExplorer();
@@ -48,12 +48,14 @@ builder.Services.AddAuthentication(opt =>
 }).AddJwtBearer(opt =>
 {
     opt.SaveToken = true;
-    opt.TokenValidationParameters = new TokenValidationParameters
+    opt.TokenValidationParameters = new()
     {
+        ValidateIssuer = true,
+        ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
+        ValidateAudience = true,
+        ValidAudience = builder.Configuration["JwtSettings:Audience"],
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(key),
-        ValidateIssuer = false,
-        ValidateAudience = false
+        IssuerSigningKey = new SymmetricSecurityKey(keyBytes)
     };
 });
 
@@ -62,6 +64,10 @@ builder.Services.AddCors(options =>
      options.AddDefaultPolicy(builder =>
      {
          builder.WithOrigins("https://localhost:5173")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+         
+         builder.WithOrigins("https://localhost:5176")
                 .AllowAnyHeader()
                 .AllowAnyMethod();
      });
@@ -77,11 +83,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 app.UseHttpsRedirection();
+app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseCors();
 
 app.MapControllers();
 app.MapFallbackToFile("/index.html");
