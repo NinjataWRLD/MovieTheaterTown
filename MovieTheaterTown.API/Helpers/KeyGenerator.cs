@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace MovieTheaterTown.API
+namespace MovieTheaterTown.API.Extensions
 {
     public class KeyGenerator
     {

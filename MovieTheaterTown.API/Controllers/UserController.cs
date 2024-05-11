@@ -14,7 +14,7 @@ namespace MovieTheaterTown.API.Controllers
     public class UserController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IConfiguration config) : ControllerBase
     {
         [HttpPost("register")]
-        [Consumes("application/json")]
+        [Consumes("text/json")]
         public async Task<ActionResult<string>> Register([FromBody] RegisterModel model)
         {
             if (!ModelState.IsValid)
@@ -45,7 +45,7 @@ namespace MovieTheaterTown.API.Controllers
         }
 
         [HttpPost("login")]
-        [Consumes("application/json")]
+        [Consumes("text/json")]
         public async Task<ActionResult<string>> Login([FromBody] LoginModel model)
         {
             if (!ModelState.IsValid)
@@ -59,9 +59,23 @@ namespace MovieTheaterTown.API.Controllers
                 ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                 return BadRequest();
             }
+            
             AppUser user = (await userManager.FindByNameAsync(model.Username))!;
-            string token = await GenerateJwtTokenAsync(user);
-            return token;
+            return await GenerateJwtTokenAsync(user);
+        }
+
+        [HttpPost("logout")]
+        public async Task<ActionResult> Logout()
+        {
+            try
+            {
+                await signInManager.SignOutAsync();
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest($"Failed to log out.");
+            }
         }
 
         private async Task<string> GenerateJwtTokenAsync(AppUser user)
@@ -80,23 +94,11 @@ namespace MovieTheaterTown.API.Controllers
                     new(ClaimTypes.Role, (await userManager.GetRolesAsync(user)).FirstOrDefault() ?? string.Empty)
                 }),
                 Expires = DateTime.UtcNow.AddDays(30),
-                SigningCredentials = new(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+                Audience = config["JwtSettings:Audience"],
+                Issuer = config["JwtSettings:Issuer"],
             });
             return tokenHandler.WriteToken(token);
-        }
-
-        [HttpPost("logout")]
-        public async Task<ActionResult> Logout()
-        {
-            try
-            {
-                await signInManager.SignOutAsync();
-                return Ok();
-            }
-            catch
-            {
-                return BadRequest($"Failed to log out.");
-            }
         }
     }
 }

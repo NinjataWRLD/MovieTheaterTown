@@ -20,12 +20,11 @@ namespace MovieTheaterTown.API.Controllers
             .CreateMapper();
 
         [HttpGet]
-        [Produces("application/json")]
+        [Produces("text/json")]
         [ProducesResponseType(Status200OK)]
-        [ProducesResponseType(Status400BadRequest)]
+        [ProducesResponseType(Status500InternalServerError)]
         public async Task<ActionResult<MovieExportDTO[]>> GetAsync()
         {
-            Console.WriteLine("got here");
             try
             {
                 IEnumerable<MovieModel> models = await movieService.GetAllAsync();
@@ -33,14 +32,16 @@ namespace MovieTheaterTown.API.Controllers
             }
             catch
             {
-                return BadRequest();
+                return StatusCode(Status500InternalServerError);
             }
         }
 
         [HttpGet("{id}")]
-        [Produces("application/json")]
+        [Produces("text/json")]
         [ProducesResponseType(Status200OK)]
+        [ProducesResponseType(Status401Unauthorized)]
         [ProducesResponseType(Status404NotFound)]
+        [ProducesResponseType(Status500InternalServerError)]
         public async Task<ActionResult<MovieExportDTO>> GetSingleAsync(int id)
         {
             try
@@ -52,13 +53,20 @@ namespace MovieTheaterTown.API.Controllers
             {
                 return NotFound();
             }
+            catch
+            {
+                return StatusCode(Status500InternalServerError);
+        }
         }
 
         [HttpPost]
-        [Consumes("application/json")]
-        [Produces("application/json")]
+        [Consumes("text/json")]
+        [Produces("text/json")]
         [ProducesResponseType(Status201Created)]
         [ProducesResponseType(Status400BadRequest)]
+        [ProducesResponseType(Status401Unauthorized)]
+        [ProducesResponseType(Status409Conflict)]
+        [ProducesResponseType(Status500InternalServerError)]
         public async Task<ActionResult<MovieExportDTO>> PostAsync(MovieImportDTO import)
         {
             MovieModel model = mapper.Map<MovieModel>(import);
@@ -71,17 +79,28 @@ namespace MovieTheaterTown.API.Controllers
 
                 return CreatedAtAction(null, new { id }, export);
             }
-            catch
+            catch (DbUpdateConcurrencyException)
+            {
+                return Conflict();
+            }
+            catch (DbUpdateException)
             {
                 return BadRequest();
             }
+            catch
+            {
+                return StatusCode(Status500InternalServerError);
+        }
         }
 
         [HttpPut("{id}")]
-        [Consumes("application/json")]
+        [Consumes("text/json")]
         [ProducesResponseType(Status204NoContent)]
-        [ProducesResponseType(Status403Forbidden)]
+        [ProducesResponseType(Status400BadRequest)]
+        [ProducesResponseType(Status401Unauthorized)]
         [ProducesResponseType(Status404NotFound)]
+        [ProducesResponseType(Status409Conflict)]
+        [ProducesResponseType(Status500InternalServerError)]
         public async Task<ActionResult> PutAsync(int id, MovieImportDTO import)
         {
             try
@@ -101,13 +120,29 @@ namespace MovieTheaterTown.API.Controllers
             {
                 return NotFound();
             }
+            catch (DbUpdateConcurrencyException)
+            {
+                return Conflict();
+            }
+            catch (DbUpdateException)
+            {
+                return BadRequest();
+        }
+
+            catch
+            {
+                return StatusCode(Status500InternalServerError);
+            }
         }
 
         [HttpPatch("{id}")]
-        [Consumes("application/json")]
+        [Consumes("text/json")]
         [ProducesResponseType(Status204NoContent)]
         [ProducesResponseType(Status400BadRequest)]
+        [ProducesResponseType(Status401Unauthorized)]
         [ProducesResponseType(Status404NotFound)]
+        [ProducesResponseType(Status409Conflict)]
+        [ProducesResponseType(Status500InternalServerError)]
         public async Task<ActionResult> PatchAsync(int id, [FromBody] JsonPatchDocument<MovieModel> patchMovie)
         {
             try
@@ -144,6 +179,7 @@ namespace MovieTheaterTown.API.Controllers
 
         [HttpDelete("{id}")]
         [ProducesResponseType(Status204NoContent)]
+        [ProducesResponseType(Status401Unauthorized)]
         [ProducesResponseType(Status404NotFound)]
         [ProducesResponseType(Status400BadRequest)]
         public async Task<ActionResult<MovieModel>> DeleteAsync(int id)
