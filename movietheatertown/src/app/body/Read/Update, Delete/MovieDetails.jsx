@@ -47,7 +47,11 @@ function MovieDetails({ movies, setMovies }) {
     }
 
     async function deleteMovie(id) {
-        await axios.delete(`https://localhost:7237/movies/${id}`)
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token'),
+        };
+        await axios.delete(`https://localhost:7237/movies/${id}`, { headers: headers })
             .then(() => setMovies(movies.filter(m => m.id != id)));
         navigate('/');
     }
@@ -83,8 +87,11 @@ function MovieDetails({ movies, setMovies }) {
     );
 
     async function getMovie(id) {
-        const data = await axios.get(`https://localhost:7237/movies/${id}`).then(response => response.data);
-        console.log(data);
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token'),
+        };
+        const data = await axios.get(`https://localhost:7237/movies/${id}`, { headers: headers }).then(response => response.data);
         setMovie(data);
     }
 }

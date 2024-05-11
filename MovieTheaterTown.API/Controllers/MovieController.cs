@@ -21,7 +21,7 @@ namespace MovieTheaterTown.API.Controllers
             .CreateMapper();
 
         [HttpGet]
-        [Produces("text/json")]
+        [Produces("application/json")]
         [ProducesResponseType(Status200OK)]
         [ProducesResponseType(Status500InternalServerError)]
         public async Task<ActionResult<MovieExportDTO[]>> GetAsync()
@@ -37,9 +37,8 @@ namespace MovieTheaterTown.API.Controllers
             }
         }
 
-        [Authorize]
         [HttpGet("{id}")]
-        [Produces("text/json")]
+        [Produces("application/json")]
         [ProducesResponseType(Status200OK)]
         [ProducesResponseType(Status401Unauthorized)]
         [ProducesResponseType(Status404NotFound)]
@@ -61,13 +60,32 @@ namespace MovieTheaterTown.API.Controllers
             }
         }
 
+        //[HttpGet("watchlist")]
+        //[Produces("application/json")]
+        //[ProducesResponseType(Status200OK)]
+        //[ProducesResponseType(Status500InternalServerError)]
+        //public async Task<ActionResult<MovieExportDTO[]>> GetWatchlistAsync()
+        //{
+        //    try
+        //    {
+        //        IEnumerable<MovieModel> models = await movieService.GetAllAsync();
+        //        IEnumerable<MovieModel> watchlist = models.Where(m => User.SavedMovies.Contains(m.Id));
+        //        return mapper.Map<MovieExportDTO[]>(watchlist);
+        //    }
+        //    catch
+        //    {
+        //        return StatusCode(Status500InternalServerError);
+        //    }
+        //}
+
         [Authorize(Roles = "Contributor")]
         [HttpPost]
-        [Consumes("text/json")]
-        [Produces("text/json")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
         [ProducesResponseType(Status201Created)]
         [ProducesResponseType(Status400BadRequest)]
         [ProducesResponseType(Status401Unauthorized)]
+        [ProducesResponseType(Status403Forbidden)]
         [ProducesResponseType(Status409Conflict)]
         [ProducesResponseType(Status500InternalServerError)]
         public async Task<ActionResult<MovieExportDTO>> PostAsync(MovieImportDTO import)
@@ -98,10 +116,11 @@ namespace MovieTheaterTown.API.Controllers
 
         [Authorize(Roles = "Contributor")]
         [HttpPut("{id}")]
-        [Consumes("text/json")]
+        [Consumes("application/json")]
         [ProducesResponseType(Status204NoContent)]
         [ProducesResponseType(Status400BadRequest)]
         [ProducesResponseType(Status401Unauthorized)]
+        [ProducesResponseType(Status403Forbidden)]
         [ProducesResponseType(Status404NotFound)]
         [ProducesResponseType(Status409Conflict)]
         [ProducesResponseType(Status500InternalServerError)]
@@ -141,10 +160,11 @@ namespace MovieTheaterTown.API.Controllers
 
         [Authorize(Roles = "Contributor")]
         [HttpPatch("{id}")]
-        [Consumes("text/json")]
+        [Consumes("application/json")]
         [ProducesResponseType(Status204NoContent)]
         [ProducesResponseType(Status400BadRequest)]
         [ProducesResponseType(Status401Unauthorized)]
+        [ProducesResponseType(Status403Forbidden)]
         [ProducesResponseType(Status404NotFound)]
         [ProducesResponseType(Status409Conflict)]
         [ProducesResponseType(Status500InternalServerError)]
@@ -186,6 +206,7 @@ namespace MovieTheaterTown.API.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(Status204NoContent)]
         [ProducesResponseType(Status401Unauthorized)]
+        [ProducesResponseType(Status403Forbidden)]
         [ProducesResponseType(Status404NotFound)]
         [ProducesResponseType(Status400BadRequest)]
         public async Task<ActionResult<MovieModel>> DeleteAsync(int id)

@@ -11,8 +11,11 @@ function Header({ isAuthenticated, setIsAuthenticated, token }) {
     const logoutUser = async () => {
         try {
             await axios.post('https://localhost:7237/account/logout');
+
             localStorage.removeItem('token');
             localStorage.removeItem('username');
+            localStorage.removeItem('role');
+
             setIsAuthenticated(false);
         } catch (error) {
             console.error('Error logging out user:', error);

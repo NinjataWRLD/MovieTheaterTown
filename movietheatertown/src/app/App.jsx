@@ -25,7 +25,7 @@ function App() {
 
     async function checkIfAuthenticated() {
         const token = (localStorage.getItem('token'));
-        if (token) {
+        if (token != undefined) {
             setIsAuthenticated(true);
         }
     }

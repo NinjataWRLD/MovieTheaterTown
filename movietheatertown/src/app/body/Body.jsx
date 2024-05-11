@@ -12,34 +12,45 @@ function Body({ isAuthenticated, setIsAuthenticated }) {
     const [movies, setMovies] = useState([]);
 
     const registerUser = async (userData) => {
-        await axios.post('https://localhost:7237/account/register', userData)
-            .then(response => response.data) // the token as a string
-            .then(token => localStorage.setItem('token', token))
-            .catch(error => console.error(error));
+        try {
+            const user = await axios.post('https://localhost:7237/account/register', userData)
+                .then(response => response.data); // object with token, role and username
 
-        localStorage.setItem('username', userData.username);
-        setIsAuthenticated(true);
-        navigate("/");
+            localStorage.setItem('token', user.token);
+            localStorage.setItem('username', user.username);
+            localStorage.setItem('role', user.role);
+
+            setIsAuthenticated(true);
+            navigate("/");
+        } catch (e) {
+            console.error(e)
+        }
     };
 
     const loginUser = async (credentials) => {
-        await axios.post("https://localhost:7237/account/login", credentials)
-            .then(response => response.data) // the token as a string
-            .then(token => localStorage.setItem('token', token))
-            .catch(error => console.error('Error - ' + error));
+        try {
+        const user = await axios.post('https://localhost:7237/account/login', credentials)
+            .then(response => response.data); // object with token, role and username
 
-        localStorage.setItem('username', credentials.username);
+        localStorage.setItem('token', user.token);
+        localStorage.setItem('username', user.username);
+        localStorage.setItem('role', user.role);
+
         setIsAuthenticated(true);
-        navigate("/");
+            navigate("/");
+        } catch (e) {
+            console.error(e)
+        }
     };
 
     return (
         <div className="container text-white m-0">
             <Routes>
                 <Route path="/" element={<Movies movies={movies} setMovies={setMovies} />} />
+                <Route path="/movies" element={<Movies movies={movies} setMovies={setMovies} />} />
+                <Route path="/moviedetails/:id" element={<MovieDetails movies={movies} setMovies={setMovies} />} />
                 <Route path="/signin" element={<SigninPage onLogin={loginUser} onRegister={registerUser} />} />
-                {isAuthenticated && <Route path="/add" element={<MovieForm movies={movies} setMovies={setMovies} />} />}
-                {isAuthenticated && <Route path="/moviedetails/:id" element={<MovieDetails movies={movies} setMovies={setMovies} />} />}
+                <Route path="/add" element={isAuthenticated ? <MovieForm movies={movies} setMovies={setMovies} /> : null} />
             </Routes>
         </div>
     );

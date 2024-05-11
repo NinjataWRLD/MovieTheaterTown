@@ -13,7 +13,7 @@ function Movies({ movies, setMovies }) {
             <ul className="flex flex-wrap justify-between">
                 {movies.map(movie => (
                     <li key={movie.id} className="w-1/3 p-4">
-                        <Movie movie={movie} movies={movies} setMovies={setMovies} />
+                        <Movie movie={movie} />
                     </li>
                 ))}
             </ul>

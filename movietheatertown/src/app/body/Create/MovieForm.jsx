@@ -9,8 +9,13 @@ function MovieForm({ movies, setMovies }) {
     const [plot, setPlot] = useState('');
 
     async function addMovie(movie) {
-        await axios.post("https://localhost:7237/movies", movie)
-            .then(response => response.json())
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        };
+
+        await axios.post("https://localhost:7237/movies", movie, { headers: headers })
+            .then(response => response.data)
             .then(data => setMovies([...movies, data]))
             .catch(error => console.error('Error:', error));
     };

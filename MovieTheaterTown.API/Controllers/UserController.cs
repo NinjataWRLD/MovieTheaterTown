@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using MovieTheaterTown.API.Models;
@@ -15,8 +14,8 @@ namespace MovieTheaterTown.API.Controllers
     public class UserController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IConfiguration config) : ControllerBase
     {
         [HttpPost("register")]
-        [Consumes("text/json")]
-        public async Task<ActionResult<string>> Register([FromBody] RegisterModel model)
+        [Consumes("application/json")]
+        public async Task<ActionResult> Register([FromBody] RegisterModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -43,11 +42,11 @@ namespace MovieTheaterTown.API.Controllers
             await signInManager.SignInAsync(user, isPersistent: false);
 
             string token = await GenerateJwtTokenAsync(user);
-            return token;
+            return Ok(new { token, role = "Client", username = user.UserName, });
         }
 
         [HttpPost("login")]
-        [Consumes("text/json")]
+        [Consumes("application/json")]
         public async Task<ActionResult<string>> Login([FromBody] LoginModel model)
         {
             if (!ModelState.IsValid)
@@ -63,10 +62,13 @@ namespace MovieTheaterTown.API.Controllers
             }
             
             AppUser user = (await userManager.FindByNameAsync(model.Username))!;
-            return await GenerateJwtTokenAsync(user);
+
+            string token = await GenerateJwtTokenAsync(user);
+            string role = (await userManager.GetRolesAsync(user)).Single();
+
+            return Ok(new { token, role, username = user.UserName });
         }
 
-        [Authorize]
         [HttpPost("logout")]
         public async Task<ActionResult> Logout()
         {
