@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using MovieTheaterTown.API.Models;
@@ -38,6 +39,7 @@ namespace MovieTheaterTown.API.Controllers
                 return BadRequest(ModelState);
             }
 
+            await userManager.AddToRoleAsync(user, "Client");
             await signInManager.SignInAsync(user, isPersistent: false);
 
             string token = await GenerateJwtTokenAsync(user);
@@ -64,6 +66,7 @@ namespace MovieTheaterTown.API.Controllers
             return await GenerateJwtTokenAsync(user);
         }
 
+        [Authorize]
         [HttpPost("logout")]
         public async Task<ActionResult> Logout()
         {

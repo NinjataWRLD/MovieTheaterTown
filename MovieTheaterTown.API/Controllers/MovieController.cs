@@ -6,6 +6,7 @@ using MovieTheaterTown.Core.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using MovieTheaterTown.Core.Profiles;
 using MovieTheaterTown.Core.Profiles.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MovieTheaterTown.API.Controllers
 {
@@ -36,6 +37,7 @@ namespace MovieTheaterTown.API.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         [Produces("text/json")]
         [ProducesResponseType(Status200OK)]
@@ -56,9 +58,10 @@ namespace MovieTheaterTown.API.Controllers
             catch
             {
                 return StatusCode(Status500InternalServerError);
-        }
+            }
         }
 
+        [Authorize(Roles = "Contributor")]
         [HttpPost]
         [Consumes("text/json")]
         [Produces("text/json")]
@@ -90,9 +93,10 @@ namespace MovieTheaterTown.API.Controllers
             catch
             {
                 return StatusCode(Status500InternalServerError);
-        }
+            }
         }
 
+        [Authorize(Roles = "Contributor")]
         [HttpPut("{id}")]
         [Consumes("text/json")]
         [ProducesResponseType(Status204NoContent)]
@@ -127,7 +131,7 @@ namespace MovieTheaterTown.API.Controllers
             catch (DbUpdateException)
             {
                 return BadRequest();
-        }
+            }
 
             catch
             {
@@ -135,6 +139,7 @@ namespace MovieTheaterTown.API.Controllers
             }
         }
 
+        [Authorize(Roles = "Contributor")]
         [HttpPatch("{id}")]
         [Consumes("text/json")]
         [ProducesResponseType(Status204NoContent)]
@@ -177,6 +182,7 @@ namespace MovieTheaterTown.API.Controllers
             }
         }
 
+        [Authorize(Roles = "Contributor")]
         [HttpDelete("{id}")]
         [ProducesResponseType(Status204NoContent)]
         [ProducesResponseType(Status401Unauthorized)]
