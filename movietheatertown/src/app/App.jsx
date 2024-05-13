@@ -12,11 +12,13 @@ function App() {
         checkIfAuthenticated();
     }, [isAuthenticated]);
 
+    const isInRole = (role) => localStorage.getItem('role') == role;
+
     return (
         <Router>
             <div className="bg-gray-800 ">
                 <Header isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} token={localStorage.getItem('username')} />
-                <Body isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />
+                <Body isInRole={isInRole} setIsAuthenticated={setIsAuthenticated} />
                 <hr className="mt-10 mb-1 bg-black" />
                 <Footer />
             </div>

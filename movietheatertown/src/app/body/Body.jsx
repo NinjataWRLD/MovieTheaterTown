@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import MovieForm from './Create/MovieForm'
+import Home from './Home'
 import Movies from './Read/Movies'
 import MovieDetails from './Read/Update, Delete/MovieDetails'
 import SigninPage from './Auth/SigninPage'
@@ -50,7 +51,8 @@ function Body({ isAuthenticated, setIsAuthenticated }) {
                 <Route path="/movies" element={<Movies movies={movies} setMovies={setMovies} />} />
                 <Route path="/moviedetails/:id" element={<MovieDetails movies={movies} setMovies={setMovies} />} />
                 <Route path="/signin" element={<SigninPage onLogin={loginUser} onRegister={registerUser} />} />
-                <Route path="/add" element={isAuthenticated ? <MovieForm movies={movies} setMovies={setMovies} /> : null} />
+                <Route path="/add" element={isInRole('Contributor') ? <MovieForm movies={movies} setMovies={setMovies} /> : <ForbiddenPage />} />
+                <Route path="/*" element={<NotFoundPage />} />
             </Routes>
         </div>
     );
