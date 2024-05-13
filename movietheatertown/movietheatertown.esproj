@@ -9,6 +9,7 @@
     <BuildOutputFolder>$(MSBuildProjectDirectory)\dist</BuildOutputFolder>
   </PropertyGroup>
   <ItemGroup>
+    <Folder Include="src\app\body\Errors\" />
     <Folder Include="src\assets\" />
   </ItemGroup>
 </Project>
