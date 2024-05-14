@@ -1,16 +1,22 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import MovieForm from './Create/MovieForm'
 import Home from './Home'
 import Movies from './Read/Movies'
+import Watchlist from './Read/Watchlist'
 import MovieDetails from './Read/Update, Delete/MovieDetails'
 import SigninPage from './Auth/SigninPage'
 import NotFoundPage from './Errors/NotFoundPage'
 import ForbiddenPage from './Errors/ForbiddenPage'
 import UnauthorizedPage from './Errors/UnauthorizedPage'
+import axios from 'axios'
 
 function Body({ isInRole, isAuthenticated, setIsAuthenticated }) {
     const [movies, setMovies] = useState([]);
+
+    useEffect(() => {
+        populateData();
+    }, []);
 
     return (
         <div className="container text-white m-0">
@@ -29,9 +35,10 @@ function Body({ isInRole, isAuthenticated, setIsAuthenticated }) {
                         <MovieDetails movies={movies} setMovies={setMovies} /> :
                         <UnauthorizedPage />} />
 
-        localStorage.setItem('token', user.token);
-        localStorage.setItem('username', user.username);
-        localStorage.setItem('role', user.role);
+                <Route path="/watchlist"
+                    element={(isInRole('Client') || isInRole('Contributor')) ?
+                        <Watchlist movies={movies} /> :
+                        <UnauthorizedPage />} />
 
                 <Route path="/add"
                     element={isInRole('Contributor') ?
@@ -43,6 +50,11 @@ function Body({ isInRole, isAuthenticated, setIsAuthenticated }) {
             </Routes>
         </div>
     );
+
+    async function populateData() {
+        const apiMovies = await axios.get('https://localhost:7237/movies').then(response => response.data);
+        setMovies(apiMovies);
+    }
 }
 
 export default Body;

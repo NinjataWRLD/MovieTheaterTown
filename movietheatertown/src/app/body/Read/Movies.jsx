@@ -3,10 +3,6 @@ import Movie from './MovieCard'
 import axios from 'axios'
 
 function Movies({ movies, setMovies }) {
-    useEffect(() => {
-        populateData();
-    }, []);
-
     return (
         <>
             <h1 className="text-3xl font-bold my-6 text-center">Movies</h1>
@@ -19,12 +15,6 @@ function Movies({ movies, setMovies }) {
             </ul>
         </>
     );
-
-    async function populateData() {
-        const apiMovies = await axios.get('https://localhost:7237/movies').then(response => response.data);
-        setMovies(apiMovies);
-    }
-
 }
 
 export default Movies;
