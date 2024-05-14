@@ -7,7 +7,7 @@ function UnauthorizedPage() {
                 Sorry, you don't have access to the place you're looking for.
             </h1>
             <br />
-            <p className="text-xl text-center">Want to add movies?</p>
+            <p className="text-xl text-center">Want to add movies to your watchlist or view their details?</p>
             <p className="text-xl text-center">
                 Try <Link to="/signin" className="text-blue-500">signing in</Link>!
             </p>

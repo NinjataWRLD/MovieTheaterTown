@@ -16,9 +16,9 @@ function App() {
 
     return (
         <Router>
-            <div className="bg-gray-800 ">
-                <Header isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} token={localStorage.getItem('username')} />
-                <Body isInRole={isInRole} setIsAuthenticated={setIsAuthenticated} />
+            <div className="bg-gray-800">
+                <Header isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />
+                <Body isInRole={isInRole} isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />
                 <hr className="mt-10 mb-1 bg-black" />
                 <Footer />
             </div>
@@ -26,7 +26,7 @@ function App() {
     );
 
     async function checkIfAuthenticated() {
-        const token = (localStorage.getItem('token'));
+        const token = localStorage.getItem('token');
         if (token != undefined) {
             setIsAuthenticated(true);
         }

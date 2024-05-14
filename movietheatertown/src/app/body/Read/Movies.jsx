@@ -21,8 +21,8 @@ function Movies({ movies, setMovies }) {
     );
 
     async function populateData() {
-        const data = await axios.get('https://localhost:7237/movies').then(response => response.data);
-        setMovies(data);
+        const apiMovies = await axios.get('https://localhost:7237/movies').then(response => response.data);
+        setMovies(apiMovies);
     }
 
 }

@@ -2,8 +2,8 @@ import NavbarLink from '../NavbarLink'
 
 function SignInMenu() {
     return (
-        <ul className="flex space-x-4">
-            <NavbarLink to="/signin" text="Sign in" />
+        <ul className="text-white flex space-x-4">
+            <NavbarLink to="/signin" text="Log in or Register" />
         </ul>
     );
 }
