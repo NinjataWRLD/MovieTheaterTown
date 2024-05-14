@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MovieTheaterTown.Core.Contracts;
 using MovieTheaterTown.Core.Models;
@@ -33,7 +34,7 @@ namespace MovieTheaterTown.Core.Services
 
             return this.mapper.Map<MovieModel>(entity);
         }
-
+        
         public async Task<bool> ExistsByIdAsync(int id) => 
             await repository.ExistsByIdAsync<Movie>(id);
 
@@ -57,6 +58,8 @@ namespace MovieTheaterTown.Core.Services
             entity.Cast = [..model.Cast];
             entity.Crew = [..model.Crew];
             entity.Reviews = [..model.Reviews];
+            entity.Saved = [..model.Saved];
+
             await repository.SaveChangesAsync();
         }
 

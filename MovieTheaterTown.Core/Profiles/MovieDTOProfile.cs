@@ -18,6 +18,7 @@ namespace MovieTheaterTown.Core.Profiles
             .ForMember(export  => export.Cast, opt => opt.MapFrom(model => model.Cast.Select(c => c.Name)))
             .ForMember(export  => export.Crew, opt => opt.MapFrom(model => model.Crew.Select(c => c.Name)))
             .ForMember(export  => export.Reviews, opt => opt.MapFrom(model => model.Reviews.Select(r => r.Message)))
+            .ForMember(export  => export.Saved, opt => opt.MapFrom(model => model.Saved.Select(s => s.Username).ToArray()))
             ;
     }
 }

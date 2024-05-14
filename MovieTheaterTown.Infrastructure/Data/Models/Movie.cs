@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MovieTheaterTown.Infrastructure.Data.Models
 {
@@ -17,5 +16,6 @@ namespace MovieTheaterTown.Infrastructure.Data.Models
         public ICollection<Cast> Cast { get; set; } = [];
         public ICollection<Crew> Crew { get; set; } = [];
         public ICollection<Review> Reviews { get; set; } = [];
+        public ICollection<UserMovie> Saved { get; set; } = [];
     }
 }

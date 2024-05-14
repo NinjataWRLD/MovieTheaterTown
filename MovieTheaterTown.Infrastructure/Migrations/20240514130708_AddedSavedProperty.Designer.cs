@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieTheaterTown.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using MovieTheaterTown.Infrastructure.Data;
 namespace MovieTheaterTown.Infrastructure.Migrations
 {
     [DbContext(typeof(MovieContext))]
-    partial class MovieContextModelSnapshot : ModelSnapshot
+    [Migration("20240514130708_AddedSavedProperty")]
+    partial class AddedSavedProperty
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -279,6 +282,10 @@ namespace MovieTheaterTown.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Saved")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Movies");
@@ -307,21 +314,6 @@ namespace MovieTheaterTown.Infrastructure.Migrations
                     b.HasIndex("MovieId");
 
                     b.ToTable("Reviews");
-                });
-
-            modelBuilder.Entity("MovieTheaterTown.Infrastructure.Data.Models.UserMovie", b =>
-                {
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("MovieId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserName", "MovieId");
-
-                    b.HasIndex("MovieId");
-
-                    b.ToTable("UsersMovie");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -408,17 +400,6 @@ namespace MovieTheaterTown.Infrastructure.Migrations
                     b.Navigation("Movie");
                 });
 
-            modelBuilder.Entity("MovieTheaterTown.Infrastructure.Data.Models.UserMovie", b =>
-                {
-                    b.HasOne("MovieTheaterTown.Infrastructure.Data.Models.Movie", "Movie")
-                        .WithMany("Saved")
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Movie");
-                });
-
             modelBuilder.Entity("MovieTheaterTown.Infrastructure.Data.Models.Movie", b =>
                 {
                     b.Navigation("Cast");
@@ -426,8 +407,6 @@ namespace MovieTheaterTown.Infrastructure.Migrations
                     b.Navigation("Crew");
 
                     b.Navigation("Reviews");
-
-                    b.Navigation("Saved");
                 });
 #pragma warning restore 612, 618
         }

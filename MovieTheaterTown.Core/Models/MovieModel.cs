@@ -10,5 +10,6 @@ namespace MovieTheaterTown.Core.Models
         public List<Cast> Cast { get; set; } = [];
         public List<Crew> Crew { get; set; } = [];
         public List<Review> Reviews { get; set; } = [];
+        public List<UserMovie> Saved { get; set; } = [];
     }
 }

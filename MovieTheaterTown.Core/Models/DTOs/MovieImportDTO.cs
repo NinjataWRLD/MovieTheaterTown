@@ -6,8 +6,5 @@ namespace MovieTheaterTown.Core.Profiles.DTOs
     {
         public string Name { get; set; } = null!;
         public string Plot { get; set; } = null!;
-        public Cast[] Cast { get; set; } = [];
-        public Crew[] Crew { get; set; } = [];
-        public Review[] Reviews { get; set; } = [];
     }
 }

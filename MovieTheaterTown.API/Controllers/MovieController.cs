@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using MovieTheaterTown.Core.Profiles;
 using MovieTheaterTown.Core.Profiles.DTOs;
 using Microsoft.AspNetCore.Authorization;
+using MovieTheaterTown.Infrastructure.Data.Models;
 
 namespace MovieTheaterTown.API.Controllers
 {
@@ -24,7 +25,7 @@ namespace MovieTheaterTown.API.Controllers
         [Produces("application/json")]
         [ProducesResponseType(Status200OK)]
         [ProducesResponseType(Status500InternalServerError)]
-        public async Task<ActionResult<MovieExportDTO[]>> GetAsync()
+        public async Task<ActionResult<MovieExportDTO[]>> GetAllAsync()
         {
             try
             {
@@ -59,24 +60,6 @@ namespace MovieTheaterTown.API.Controllers
                 return StatusCode(Status500InternalServerError);
             }
         }
-
-        //[HttpGet("watchlist")]
-        //[Produces("application/json")]
-        //[ProducesResponseType(Status200OK)]
-        //[ProducesResponseType(Status500InternalServerError)]
-        //public async Task<ActionResult<MovieExportDTO[]>> GetWatchlistAsync()
-        //{
-        //    try
-        //    {
-        //        IEnumerable<MovieModel> models = await movieService.GetAllAsync();
-        //        IEnumerable<MovieModel> watchlist = models.Where(m => User.SavedMovies.Contains(m.Id));
-        //        return mapper.Map<MovieExportDTO[]>(watchlist);
-        //    }
-        //    catch
-        //    {
-        //        return StatusCode(Status500InternalServerError);
-        //    }
-        //}
 
         [Authorize(Roles = "Contributor")]
         [HttpPost]
@@ -114,6 +97,52 @@ namespace MovieTheaterTown.API.Controllers
             }
         }
 
+        [Authorize]
+        [HttpPut("{operation}/{movieId}")]
+        [Consumes("application/json")]
+        [ProducesResponseType(Status204NoContent)]
+        [ProducesResponseType(Status400BadRequest)]
+        [ProducesResponseType(Status401Unauthorized)]
+        [ProducesResponseType(Status409Conflict)]
+        [ProducesResponseType(Status500InternalServerError)]
+        public async Task<ActionResult> EditWatchlist(int movieId, string operation, [FromBody] string username)
+        {
+            MovieModel model = await movieService.GetByIdAsync(movieId);
+            try
+            {
+                UserMovie movie;
+                switch (operation)
+                {
+                    case "add":
+                        movie = new() { MovieId = movieId, Username = username };
+                        model.Saved.Add(movie);
+                        break;
+
+                    case "remove":
+                        movie = model.Saved.First(um => um.MovieId == movieId && um.Username == username);
+                        model.Saved.Remove(movie);
+                        break;
+
+                    default: throw new ArgumentException();
+                }
+                await movieService.EditAsync(movieId, model); ;
+
+                return NoContent();
+            }
+            catch (DbUpdateConcurrencyException dbuce)
+            {
+                return Conflict(dbuce);
+            }
+            catch (DbUpdateException dbue)
+            {
+                return BadRequest(dbue);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(Status500InternalServerError, e);
+            }
+        }
+
         [Authorize(Roles = "Contributor")]
         [HttpPut("{id}")]
         [Consumes("application/json")]
@@ -132,9 +161,10 @@ namespace MovieTheaterTown.API.Controllers
 
                 model.Name = import.Name;
                 model.Plot = import.Plot;
-                model.Cast = [..import.Cast];
-                model.Crew = [..import.Crew];
-                model.Reviews = [.. import.Reviews];
+                model.Cast = [];
+                model.Crew = [];
+                model.Reviews = [];
+                model.Saved = [];
                 await movieService.EditAsync(id, model);
 
                 return NoContent();
